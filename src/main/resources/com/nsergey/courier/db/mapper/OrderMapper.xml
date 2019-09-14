@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nsergey.courier.db.mapper.OrderMapper">
+
+    <resultMap id="orderResultMap" type="com.nsergey.courier.db.model.Order">
+        <result property="id" column="id"/>
+        <result property="addressId" column="address_id"/>
+        <result property="customerId" column="customer_id"/>
+    </resultMap>
+
+    <select id="findAll" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        SELECT o.id,
+               address_id,
+               customer_id,
+               state,
+               os.code,
+               courier_id
+        FROM orders o
+                 join order_status os on o.state = os.id
+                 join addresses a on o.address_id = a.id
+                 join customers on o.customer_id = customers.id
+                 join couriers c2 on o.courier_id = c2.id
+    </select>
+
+    <select id="findById" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        SELECT o.id,
+               address_id,
+               customer_id,
+               state,
+               courier_id,
+               notes
+        FROM orders o
+                 join order_status os on o.state = os.id
+        WHERE o.id = #{orderId}
+    </select>
+
+    <select id="findAllByCourierId" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        SELECT o.id,
+               address_id,
+               customer_id,
+               state,
+               os.code,
+               courier_id,
+               notes
+        FROM orders o
+            join order_status os on o.state = os.id
+        WHERE courier_id = #{courierId}
+    </select>
+
+</mapper>
