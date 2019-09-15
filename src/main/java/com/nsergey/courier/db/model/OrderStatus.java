@@ -7,7 +7,8 @@ public enum OrderStatus {
     NEW("Новый"),
     IN_PROGRESS("Доставка"),
     CANCELED("Отменён"),
-    DELIVERED("Доставлен");
+    DELIVERED("Доставлен"),
+    SCHEDULING("Согласование времени доставки");
 
     @Getter
     private final String title;
