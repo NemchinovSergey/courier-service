@@ -10,6 +10,6 @@
 </head>
 <body>
     <p><a href="courier/orders">Войти как курьер</a></p>
-    <p><a href="operator/orders">Войти как оператор call-центра</a></p>
+    <p><a href="operator/tasks">Войти как оператор call-центра</a></p>
 </body>
 </html>
