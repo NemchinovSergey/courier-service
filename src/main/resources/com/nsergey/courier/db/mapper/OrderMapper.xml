@@ -15,17 +15,17 @@
     <sql id="selectJoin">
         SELECT o.id,
                o.address_id,
-               a.city_name || ', ' || a.street_name || ', ' || a.house || ', ' || a.flat as address,
+               a.city_name || ', ' || a.street_name || ', ' || a.house || ', ' || a.flat AS address,
                o.customer_id,
-               customers.name as customer_name,
+               customers.name AS customer_name,
                o.delivery_time,
                o.courier_id,
                o.state_id
         FROM orders o
-                 JOIN order_status os on o.state_id = os.id
-                 join addresses a on o.address_id = a.id
-                 join customers on o.customer_id = customers.id
-                 join couriers c2 on o.courier_id = c2.id
+                 JOIN order_status os ON o.state_id = os.id
+                 JOIN addresses a ON o.address_id = a.id
+                 JOIN customers ON o.customer_id = customers.id
+                 JOIN couriers c2 ON o.courier_id = c2.id
     </sql>
 
     <select id="findAll" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
