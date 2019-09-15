@@ -6,6 +6,7 @@
         <id column="id" property="id"/>
         <result property="orderId" column="order_id"/>
         <result property="created" column="created"/>
+        <result property="done" column="done"/>
     </resultMap>
 
     <insert id="addOrderRescheduleTask">
@@ -17,8 +18,19 @@
         SELECT
             id,
             order_id,
+            done,
             created
         FROM call_center_tasks
+    </select>
+
+    <select id="findTaskById" resultMap="taskResultMap">
+        SELECT
+            id,
+            order_id,
+            done,
+            created
+        FROM call_center_tasks
+        WHERE id=#{taskId}
     </select>
 
 </mapper>
