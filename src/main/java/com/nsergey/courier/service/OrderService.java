@@ -2,6 +2,7 @@ package com.nsergey.courier.service;
 
 import com.nsergey.courier.db.mapper.OrderMapper;
 import com.nsergey.courier.db.model.Order;
+import com.nsergey.courier.db.model.OrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class OrderService {
 
     public List<Order> findAllByCourierId(Long courierId) {
         return orderMapper.findAllByCourierId(courierId);
+    }
+
+    public List<Order> findAllByCourierIdAndStatus(Long courierId, OrderStatus... orderStatuses) {
+        return orderMapper.findAllByCourierIdAndStatus(courierId, orderStatuses);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.nsergey.courier.db.model;
 
+import lombok.Getter;
+
 public enum OrderStatus {
     UNKNOWN("Неизвестный"),
     NEW("Новый"),
@@ -7,6 +9,7 @@ public enum OrderStatus {
     CANCELED("Отменён"),
     DELIVERED("Доставлен");
 
+    @Getter
     private final String title;
 
     OrderStatus(String title) {

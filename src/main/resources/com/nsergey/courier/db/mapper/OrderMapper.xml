@@ -6,45 +6,54 @@
         <result property="id" column="id"/>
         <result property="addressId" column="address_id"/>
         <result property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="deliveryTime" column="delivery_time"/>
+        <result property="courierId" column="courier_id"/>
+        <result property="state" column="state_id"/>
     </resultMap>
 
-    <select id="findAll" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+    <sql id="selectJoin">
         SELECT o.id,
-               address_id,
-               customer_id,
-               state,
-               os.code,
-               courier_id
+               o.address_id,
+               a.city_name || ', ' || a.street_name || ', ' || a.house || ', ' || a.flat as address,
+               o.customer_id,
+               customers.name as customer_name,
+               o.delivery_time,
+               o.courier_id,
+               o.state_id
         FROM orders o
-                 join order_status os on o.state = os.id
+                 JOIN order_status os on o.state_id = os.id
                  join addresses a on o.address_id = a.id
                  join customers on o.customer_id = customers.id
                  join couriers c2 on o.courier_id = c2.id
+    </sql>
+
+    <select id="findAll" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        <include refid="selectJoin"/>
     </select>
 
     <select id="findById" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
-        SELECT o.id,
-               address_id,
-               customer_id,
-               state,
-               courier_id,
-               notes
-        FROM orders o
-                 join order_status os on o.state = os.id
+        <include refid="selectJoin"/>
         WHERE o.id = #{orderId}
     </select>
 
     <select id="findAllByCourierId" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
-        SELECT o.id,
-               address_id,
-               customer_id,
-               state,
-               os.code,
-               courier_id,
-               notes
-        FROM orders o
-            join order_status os on o.state = os.id
-        WHERE courier_id = #{courierId}
+        <include refid="selectJoin"/>
+        WHERE o.courier_id = #{courierId}
+    </select>
+
+    <select id="findAllByCustomerId" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        <include refid="selectJoin"/>
+        WHERE o.customer_id = #{customerId}
+    </select>
+
+    <select id="findAllByCourierIdAndStatus" resultType="com.nsergey.courier.db.model.Order" resultMap="orderResultMap">
+        <include refid="selectJoin"/>
+        WHERE o.courier_id = #{courierId}
+        <if test="orderStatuses != null">
+            AND o.state_id in
+            <foreach item="item" index="index" collection="orderStatuses" open="(" separator="," close=")">#{item}</foreach>
+        </if>
     </select>
 
 </mapper>
