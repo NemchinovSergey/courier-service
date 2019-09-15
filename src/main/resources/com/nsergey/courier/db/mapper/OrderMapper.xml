@@ -56,4 +56,10 @@
         </if>
     </select>
 
+    <update id="updateState" parameterType="com.nsergey.courier.db.model.Order">
+        UPDATE orders SET
+            state_id = #{status}
+        WHERE id = #{orderId}
+    </update>
+
 </mapper>

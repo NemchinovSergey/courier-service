@@ -22,4 +22,6 @@ public interface OrderMapper {
 
     List<Order> findAllByCourierIdAndStatus(@Param("courierId") long courierId,
                                             @Param("orderStatuses") OrderStatus[] orderStatuses);
+
+    void updateState(@Param("orderId") Long orderId, @Param("status") OrderStatus status);
 }

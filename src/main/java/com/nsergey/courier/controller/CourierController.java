@@ -8,8 +8,7 @@ import com.nsergey.courier.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.ZoneId;
@@ -42,7 +41,6 @@ public class CourierController {
         Objects.requireNonNull(courierId);
 
         log.info("Show courier's order list: {}", courierId);
-        ModelAndView modelAndView = new ModelAndView("courier_cabinet");
 
         Courier courier = courierService.findById(courierId);
 
@@ -57,8 +55,18 @@ public class CourierController {
         modelAndView.addObject("orders", sortedOrders);
         modelAndView.addObject("zoneId", zoneId);
         modelAndView.addObject("title", String.format("Кабинет курьера - %d заказов к доставке", orders.size()));
-
         return modelAndView;
+    }
+
+    @PostMapping(path = "/actions/reschedule", params = "orderId")
+    public String rescheduleOrder(@RequestParam("orderId") Long orderId) {
+        Long courierId = SecurityContext.getAuthorisedCourierId();
+        Objects.requireNonNull(courierId);
+
+        log.info("Reschedule order: {}, courierId: {}", orderId, courierId);
+        orderService.rescheduleOrder(orderId);
+
+        return "redirect:/courier/orders";
     }
 
 }

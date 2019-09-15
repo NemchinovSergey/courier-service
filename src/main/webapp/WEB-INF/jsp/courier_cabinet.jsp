@@ -35,7 +35,11 @@
                 <td>${order.address}</td>
                 <td>${order.state.title}</td>
                 <td>${fn:formatDateTimeTz(order.deliveryTime, zoneId)}</td>
-                <td><a href="orders/postpone?id=${order.id}">Не успеваю</a></td>
+                <td>
+                    <form method="POST" action="actions/reschedule?orderId=${order.id}">
+                        <input type="submit" value="Не успеваю">
+                    </form>
+                </td>
             </tr>
         </c:forEach>
     </table>
