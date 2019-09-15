@@ -10,7 +10,9 @@ public class Order {
      * ИД заказа
      */
     private Long id;
-    /* ИД адреса доставки */
+    /**
+     * ИД адреса доставки
+     */
     private Long addressId;
     /**
      * Адрес доставки
