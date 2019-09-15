@@ -13,4 +13,11 @@
         <function-class>com.nsergey.courier.util.DateTimeUtil</function-class>
         <function-signature>java.lang.String toString(java.time.Instant)</function-signature>
     </function>
+
+    <function>
+        <name>formatDateTimeTz</name>
+        <function-class>com.nsergey.courier.util.DateTimeUtil</function-class>
+        <function-signature>java.lang.String toString(java.time.Instant,java.time.ZoneId))</function-signature>
+    </function>
+
 </taglib>
