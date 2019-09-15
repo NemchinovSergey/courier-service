@@ -10,3 +10,11 @@ CREATE DATABASE courierdb
     LC_CTYPE = 'Russian_Russia.1251'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
+
+CREATE OR REPLACE FUNCTION refresh_updated() RETURNS TRIGGER LANGUAGE PLPGSQL AS
+$$
+BEGIN
+    NEW.updated := now();
+    RETURN NEW;
+END;
+$$;
