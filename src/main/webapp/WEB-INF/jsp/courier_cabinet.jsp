@@ -14,7 +14,7 @@
     <p>Курьер: ${courier.name}</p>
     <p>Заказов: ${orders.size()}</p>
 
-    <table border="1">
+    <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
             <th>#</th>
@@ -44,5 +44,6 @@
         </c:forEach>
     </table>
 
+    <p><a href="${pageContext.request.contextPath}/">На главную</a></p>
 </body>
 </html>
