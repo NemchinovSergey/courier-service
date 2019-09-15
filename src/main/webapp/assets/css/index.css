@@ -1,3 +1,15 @@
-.text-underline {
-   text-decoration: underline;
+tr[data-orderState="NEW"] {
+   color: red;
+}
+
+tr[data-orderState="IN_PROGRESS"] {
+   color: blue;
+}
+
+tr[data-taskDone="true"] {
+   color: green;
+}
+
+tr[data-taskDone="false"] {
+   color: blue;
 }
