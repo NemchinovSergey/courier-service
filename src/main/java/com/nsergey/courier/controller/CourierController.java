@@ -14,8 +14,6 @@ import java.util.List;
 @Controller
 public class CourierController {
 
-    private static final long COURIER_ID = 1L;
-
     private final OrderService orderService;
 
     @Autowired
