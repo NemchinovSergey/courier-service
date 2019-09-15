@@ -5,7 +5,6 @@ import com.nsergey.courier.db.model.Order;
 import com.nsergey.courier.db.model.OrderStatus;
 import com.nsergey.courier.exception.OrderNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +39,7 @@ public class OrderService {
 
     @Transactional
     public void rescheduleOrder(Long orderId) {
+        log.info("Reschedule order: {}", orderId);
         Order order = orderMapper.findById(orderId);
         if (order == null) {
             throw new OrderNotFoundException(orderId);

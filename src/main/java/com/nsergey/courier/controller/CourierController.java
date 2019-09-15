@@ -51,6 +51,7 @@ public class CourierController {
                 .sorted(Comparator.comparing(Order::getDeliveryTime))
                 .collect(Collectors.toList());
 
+        ModelAndView modelAndView = new ModelAndView("courier_cabinet");
         modelAndView.addObject("courier", courier);
         modelAndView.addObject("orders", sortedOrders);
         modelAndView.addObject("zoneId", zoneId);
