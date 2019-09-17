@@ -14,7 +14,7 @@
         VALUES (#{orderId})
     </insert>
 
-    <select id="findAll" resultMap="taskResultMap">
+    <select id="findAllUndone" resultMap="taskResultMap">
         SELECT
             id,
             order_id,

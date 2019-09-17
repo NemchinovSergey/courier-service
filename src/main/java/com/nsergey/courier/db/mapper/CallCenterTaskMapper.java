@@ -13,7 +13,7 @@ public interface CallCenterTaskMapper {
 
     long addOrderRescheduleTask(@Param("orderId") long orderId);
 
-    List<Task> findAll();
+    List<Task> findAllUndone();
 
     Task findTaskById(@Param("taskId") long taskId);
 }

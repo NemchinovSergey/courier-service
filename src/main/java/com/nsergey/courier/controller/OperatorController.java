@@ -41,7 +41,7 @@ public class OperatorController {
 
         log.info("Show operator's order list: {}", operatorId);
 
-        List<Task> tasks = callCenterService.findAllTasks();
+        List<Task> tasks = callCenterService.findAllUndone();
 
         List<Task> sortedTasks = tasks.stream()
                 .sorted(Comparator.comparing(Task::getCreated))

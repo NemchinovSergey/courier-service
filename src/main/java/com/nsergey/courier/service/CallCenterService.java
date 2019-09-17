@@ -19,16 +19,32 @@ public class CallCenterService {
         this.taskMapper = taskMapper;
     }
 
+    /**
+     * Добавить задачу в КЦ на перенос времени доставки
+     *
+     * @param orderId ИД заказа
+     */
     public void addOrderRescheduleTask(long orderId) {
-        log.info("Add task to reschedule order, orderId: {}", orderId);
+        log.info("Add a task to reschedule order, orderId: {}", orderId);
         taskMapper.addOrderRescheduleTask(orderId);
     }
 
-    public List<Task> findAllTasks() {
-        return taskMapper.findAll();
+    /**
+     * Найти все незавершенные задачи
+     */
+    public List<Task> findAllUndone() {
+        log.info("Find all undone tasks");
+        return taskMapper.findAllUndone();
     }
 
+    /**
+     * Возвращает задачу по её идентификатору
+     *
+     * @param taskId ИД задачи
+     * @return Task - если найдено, null - если не найдена
+     */
     public Task findTaskById(long taskId) {
+        log.info("Find a task by id: {}", taskId);
         return taskMapper.findTaskById(taskId);
     }
 }
