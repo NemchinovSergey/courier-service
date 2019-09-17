@@ -21,6 +21,7 @@
             done,
             created
         FROM call_center_tasks
+        WHERE done=false
     </select>
 
     <select id="findTaskById" resultMap="taskResultMap">
