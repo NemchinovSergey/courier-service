@@ -1,6 +1,7 @@
 package com.nsergey.courier.controller;
 
 import com.nsergey.courier.auth.SecurityContext;
+import com.nsergey.courier.db.model.Order;
 import com.nsergey.courier.db.model.Task;
 import com.nsergey.courier.service.CallCenterService;
 import com.nsergey.courier.service.OrderService;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Slf4j
 @Controller
@@ -60,14 +64,26 @@ public class OperatorController {
         Objects.requireNonNull(operatorId);
 
         log.info("Schedule taskId: {}", taskId);
-        // todo перенос доставки заказа на другое время
         Task task = callCenterService.findTaskById(taskId);
         if (!task.getDone()) {
-            // установить в заказе новое время и статус
-            // закрыть заявку
+            // тут конечно должно быть то время, которое укажет оператор
+            // однако я просто прибавляют 1 день
+            Instant newDeliveryTime = getNewDeliveryTime(task);
+            callCenterService.rescheduleOrderByTask(task, newDeliveryTime);
         }
 
         return "redirect:/operator/tasks";
+    }
+
+    /**
+     * Упрощенная версия получения нового времени доставки заказа
+     *
+     * @param task задача на прозвон
+     * @return новое время доставки
+     */
+    private Instant getNewDeliveryTime(Task task) {
+        Order order = orderService.findById(task.getOrderId());
+        return order.getDeliveryTime().plus(1, DAYS);
     }
 
 }
