@@ -33,6 +33,10 @@ public class OrderService {
         return orderMapper.findAllByCourierId(courierId);
     }
 
+    public Order findById(Long orderId) {
+        return orderMapper.findById(orderId);
+    }
+
     public List<Order> findAllByCourierIdAndStatus(Long courierId, OrderStatus... orderStatuses) {
         return orderMapper.findAllByCourierIdAndStatus(courierId, orderStatuses);
     }
