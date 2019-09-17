@@ -18,6 +18,7 @@ public class CourierService {
     }
 
     public Courier findById(long courierId) {
+        log.info("Find a courier by id: {}", courierId);
         return courierMapper.findById(courierId);
     }
 }
