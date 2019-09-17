@@ -64,8 +64,8 @@ public class CourierController {
         Long courierId = SecurityContext.getAuthorisedCourierId();
         Objects.requireNonNull(courierId);
 
-        log.info("Reschedule order: {}, courierId: {}", orderId, courierId);
-        orderService.rescheduleOrder(orderId);
+        log.info("Add task to reschedule order: {}, courierId: {}", orderId, courierId);
+        orderService.addTaskToRescheduleOrderDelivery(orderId);
 
         return "redirect:/courier/orders";
     }

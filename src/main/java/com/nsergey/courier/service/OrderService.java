@@ -38,7 +38,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void rescheduleOrder(Long orderId) {
+    public void addTaskToRescheduleOrderDelivery(Long orderId) {
         log.info("Reschedule order: {}", orderId);
         Order order = orderMapper.findById(orderId);
         if (order == null) {
