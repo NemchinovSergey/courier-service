@@ -15,13 +15,11 @@ import java.util.List;
 @Service
 public class CallCenterService {
 
-    private CallCenterTaskMapper taskMapper;
-    private OrderService orderService;
+    private final CallCenterTaskMapper taskMapper;
 
     @Autowired
-    public CallCenterService(CallCenterTaskMapper taskMapper, OrderService orderService) {
+    public CallCenterService(CallCenterTaskMapper taskMapper) {
         this.taskMapper = taskMapper;
-        this.orderService = orderService;
     }
 
     /**
