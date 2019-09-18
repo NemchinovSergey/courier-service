@@ -1,8 +1,11 @@
 package com.nsergey.courier.service;
 
 import com.nsergey.courier.db.mapper.CallCenterTaskMapper;
+import com.nsergey.courier.db.mapper.OrderMapper;
 import com.nsergey.courier.db.model.Order;
+import com.nsergey.courier.db.model.OrderStatus;
 import com.nsergey.courier.db.model.Task;
+import com.nsergey.courier.exception.OrderNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,12 @@ public class CallCenterService {
 
     private final CallCenterTaskMapper taskMapper;
 
+    private final OrderMapper orderMapper;
+
     @Autowired
-    public CallCenterService(CallCenterTaskMapper taskMapper) {
+    public CallCenterService(CallCenterTaskMapper taskMapper, OrderMapper orderMapper) {
         this.taskMapper = taskMapper;
+        this.orderMapper = orderMapper;
     }
 
     /**
@@ -27,7 +33,7 @@ public class CallCenterService {
      *
      * @param orderId ИД заказа
      */
-    public void addOrderRescheduleTask(long orderId) {
+    private void addOrderRescheduleTask(long orderId) {
         log.info("Add a task to reschedule order, orderId: {}", orderId);
         taskMapper.addOrderRescheduleTask(orderId);
     }
@@ -49,6 +55,23 @@ public class CallCenterService {
     public Task findTaskById(long taskId) {
         log.info("Find a task by id: {}", taskId);
         return taskMapper.findTaskById(taskId);
+    }
+
+    /**
+     * Добавляет задачу на прозвон клиента для переноса времени доставки заказа
+     *
+     * @param orderId ИД заказа
+     */
+    @Transactional
+    public void addTaskToRescheduleOrderDelivery(Long orderId) {
+        log.info("Add task to reschedule order: {}", orderId);
+
+        Order order = orderMapper.findById(orderId);
+        if (order == null) {
+            throw new OrderNotFoundException(orderId);
+        }
+        addOrderRescheduleTask(order.getId());
+        orderMapper.updateState(order.getId(), OrderStatus.SCHEDULING);
     }
 
     /**
