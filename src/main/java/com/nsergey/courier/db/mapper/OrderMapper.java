@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 
 @Mapper
@@ -24,4 +25,8 @@ public interface OrderMapper {
                                             @Param("orderStatuses") OrderStatus[] orderStatuses);
 
     void updateState(@Param("orderId") Long orderId, @Param("status") OrderStatus status);
+
+    void updateDeliveryTime(@Param("orderId") Long orderId,
+                            @Param("newDeliveryTime") Instant newDeliveryTime,
+                            @Param("newOrderStatus") OrderStatus newOrderStatus);
 }

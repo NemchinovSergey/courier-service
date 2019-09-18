@@ -62,4 +62,11 @@
         WHERE id = #{orderId}
     </update>
 
+    <update id="updateDeliveryTime">
+        UPDATE orders SET
+            delivery_time = #{newDeliveryTime},
+            state_id = #{newOrderStatus}
+        WHERE id = #{orderId}
+    </update>
+
 </mapper>

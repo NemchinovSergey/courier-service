@@ -82,8 +82,14 @@ public class CallCenterService {
      */
     @Transactional
     public void rescheduleOrderByTask(Task task, Instant newDeliveryTime) {
-        // todo задать новое время доставки и статус заказа
-        // закрыть задачу прозвона
+        log.info("Reschedule order by task: {}", task.getId());
+
+        Order order = orderMapper.findById(task.getOrderId());
+        if (order == null) {
+            throw new OrderNotFoundException(task.getOrderId());
+        }
+        orderMapper.updateDeliveryTime(order.getId(), newDeliveryTime, OrderStatus.NEW);
+        taskMapper.closeTask(task.getId());
     }
 
 }

@@ -34,4 +34,10 @@
         WHERE id=#{taskId}
     </select>
 
+    <update id="closeTask">
+        UPDATE call_center_tasks SET
+            done = true
+        WHERE id = #{taskId}
+    </update>
+
 </mapper>

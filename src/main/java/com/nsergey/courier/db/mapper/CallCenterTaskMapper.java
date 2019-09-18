@@ -16,4 +16,6 @@ public interface CallCenterTaskMapper {
     List<Task> findAllUndone();
 
     Task findTaskById(@Param("taskId") long taskId);
+
+    void closeTask(@Param("taskId") long taskId);
 }

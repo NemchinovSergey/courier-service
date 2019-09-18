@@ -3,6 +3,7 @@ package com.nsergey.courier.controller;
 import com.nsergey.courier.auth.SecurityContext;
 import com.nsergey.courier.db.model.Courier;
 import com.nsergey.courier.db.model.Order;
+import com.nsergey.courier.service.CallCenterService;
 import com.nsergey.courier.service.CourierService;
 import com.nsergey.courier.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,14 @@ public class CourierController {
     private final OrderService orderService;
 
     private final CourierService courierService;
+    
+    private final CallCenterService callCenterService;
 
     @Autowired
-    public CourierController(OrderService orderService, CourierService courierService) {
+    public CourierController(OrderService orderService, CourierService courierService, CallCenterService callCenterService) {
         this.orderService = orderService;
         this.courierService = courierService;
+        this.callCenterService = callCenterService;
     }
 
     @GetMapping("/orders")
@@ -65,7 +69,7 @@ public class CourierController {
         Objects.requireNonNull(courierId);
 
         log.info("Add task to reschedule order: {}, courierId: {}", orderId, courierId);
-        orderService.addTaskToRescheduleOrderDelivery(orderId);
+        callCenterService.addTaskToRescheduleOrderDelivery(orderId);
 
         return "redirect:/courier/orders";
     }
