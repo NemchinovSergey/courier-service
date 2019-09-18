@@ -29,7 +29,7 @@ public class CourierController {
     private final OrderService orderService;
 
     private final CourierService courierService;
-    
+
     private final CallCenterService callCenterService;
 
     @Autowired
@@ -69,7 +69,8 @@ public class CourierController {
         Objects.requireNonNull(courierId);
 
         log.info("Add task to reschedule order: {}, courierId: {}", orderId, courierId);
-        callCenterService.addTaskToRescheduleOrderDelivery(orderId);
+        long taskId = callCenterService.addTaskToRescheduleOrderDelivery(orderId);
+        log.info("Created task id: {}", taskId);
 
         return "redirect:/courier/orders";
     }
