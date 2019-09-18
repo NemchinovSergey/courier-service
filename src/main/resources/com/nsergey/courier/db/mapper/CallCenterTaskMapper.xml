@@ -9,10 +9,11 @@
         <result property="done" column="done"/>
     </resultMap>
 
-    <insert id="addOrderRescheduleTask">
+    <select id="addOrderRescheduleTask" resultType="long">
         INSERT INTO call_center_tasks (order_id)
         VALUES (#{orderId})
-    </insert>
+        RETURNING id
+    </select>
 
     <select id="findAllUndone" resultMap="taskResultMap">
         SELECT
