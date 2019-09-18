@@ -29,16 +29,6 @@ public class CallCenterService {
     }
 
     /**
-     * Добавить задачу в КЦ на перенос времени доставки
-     *
-     * @param orderId ИД заказа
-     */
-    private void addOrderRescheduleTask(long orderId) {
-        log.info("Add a task to reschedule order, orderId: {}", orderId);
-        taskMapper.addOrderRescheduleTask(orderId);
-    }
-
-    /**
      * Найти все незавершенные задачи
      */
     public List<Task> findAllUndone() {
@@ -63,15 +53,19 @@ public class CallCenterService {
      * @param orderId ИД заказа
      */
     @Transactional
-    public void addTaskToRescheduleOrderDelivery(Long orderId) {
+    public long addTaskToRescheduleOrderDelivery(Long orderId) {
         log.info("Add task to reschedule order: {}", orderId);
 
         Order order = orderMapper.findById(orderId);
         if (order == null) {
             throw new OrderNotFoundException(orderId);
         }
-        addOrderRescheduleTask(order.getId());
+        long orderId1 = order.getId();
+        long taskId = taskMapper.addOrderRescheduleTask(orderId1);
         orderMapper.updateState(order.getId(), OrderStatus.SCHEDULING);
+
+        log.info("Created task id: {}", taskId);
+        return taskId;
     }
 
     /**
